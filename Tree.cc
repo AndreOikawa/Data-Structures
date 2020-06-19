@@ -4,12 +4,37 @@
 
 using namespace std;
 
+Tree::Tree() {}
+
 Tree::Tree(int val) : _val{val} {}
+
+int Tree::newHeight() {
+	int height = 0;
+	for (int i = 0; i < _children.size(); ++i) {
+		if (_children[i]) {
+			height = max(height, _children[i]->newHeight() + 1);
+		}
+	}
+	return height;
+}
 
 void Tree::print(vector<bool> drawH) {
 	drawH.push_back(true);
 	cout << _val << endl;
+	bool nonNull = false;
 	for (int i = 0; i < _children.size(); ++i) {
+		if (_children[i]) {
+			nonNull = true;
+			break;
+		}
+	}
+	if (!nonNull) return;
+	for (int i = 0; i < _children.size(); ++i) {
+		if (!_children[i]) {
+			// if (!last) cout << "|";
+			// cout << endl;
+			continue;
+		}
 		for (int j = 0; j < drawH.size() - 1; ++j) {
 			if (drawH[j]) cout << "| ";
 			else cout << "  ";
@@ -24,6 +49,7 @@ void Tree::print(vector<bool> drawH) {
 		}
 		cout << "─";
 		_children[i]->print(drawH);
+		
 	}
 }
 
@@ -32,9 +58,10 @@ void Tree::print() {
 	print(drawH);
 }
 
-void Tree::add(int val) {
+int Tree::add(int val) {
 	shared_ptr<Tree> child = make_shared<Tree>(val);
 	_children.push_back(child);
+	return 0;
 }
 
 bool Tree::remove(int val) {

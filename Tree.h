@@ -9,16 +9,21 @@
 using namespace std;
 
 class Tree: public Base {
+protected:
+
 private:
 	void print(vector<bool> drawH);
 public:
 	int _val;
 	vector<shared_ptr<Tree>> _children;
 
+	Tree();
 	Tree(int val);
 	void print();
-	void add(int val);
+	// void add(int val);
+	int add(int val);
 	bool remove(int val);
+	int newHeight();
 };
 
 #endif

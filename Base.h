@@ -4,7 +4,8 @@
 class Base {
 public:
 	virtual void print() = 0;
-	virtual void add(int val) = 0;
+	// virtual void add(int val) = 0;
+	virtual int add(int val) = 0;
 	virtual bool remove(int val) = 0;
 };
 
