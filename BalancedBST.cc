@@ -68,19 +68,84 @@ int BalancedBST::add(int val) {
 	
 }
 
-// bool BalancedBST::remove(int val) {
-// 	if (_val == val && _children.size() > 0) {
-// 		shared_ptr<Tree> temp = _children[_children.size() - 1];
-// 		_val = temp->_val;
-// 		_children.pop_back();
-// 		for (int i = 0; i < temp->_children.size(); ++i) {
-// 			_children.push_back(temp->_children[i]);
-// 		}
-// 		return true;
-// 	} else if (_val < val) {
-		
-// 	} else if (_val > val) {
-		
-// 	}
-// 	return false;
-// }
+bool BalancedBST::remove(int val) {
+	bool changed = false;
+	if (_val == val) {
+		if (!_children[0] && _children[1]) {
+			_val = _children[1]->_val;
+			_children[0] = _children[1]->_children[0];
+			_children[1] = _children[1]->_children[1];
+		} else if (_children[0] && !_children[1]) {
+			_val = _children[0]->_val;
+			_children[0] = _children[0]->_children[0];
+			_children[1] = _children[0]->_children[1];
+		} else if (_children[0]) {
+			shared_ptr<Tree> rightmost = _children[0];
+			shared_ptr<Tree> prev = nullptr;
+			while (rightmost->_children[1]) {
+				prev = rightmost;
+				rightmost = rightmost->_children[1];
+			}
+			if (!prev) {
+				_val = rightmost->_val;
+				_children[0] = rightmost->_children[0];
+			} else {
+				_val = rightmost->_val;
+				prev->_children[1] = nullptr;
+			}
+		}
+		changed = true;
+	} else {//if (_val < val && _children[0]) {
+		int side = (_val > val ? 0 : 1);
+		if (!_children[side]) return false;
+		shared_ptr<Tree> child = _children[side];
+		if (child->_val == val) {
+			if (child->_leftHeight == 0) {
+				_children[side] = child->_children[1];
+			} else if (child->_rightHeight == 0) {
+				_children[side] = child->_children[0];
+			} else if (child->_leftHeight > child->_rightHeight) {
+				shared_ptr<Tree> rightmost = child->_children[0];
+				shared_ptr<Tree> prev = child;
+				while (rightmost->_children[1]) {
+					prev = rightmost;
+					rightmost = rightmost->_children[1];
+				}
+				child->_val = rightmost->_val;
+				prev->_children[1] = nullptr;
+			} else {
+				shared_ptr<Tree> leftmost = child->_children[1];
+				shared_ptr<Tree> prev = child;
+				while (leftmost->_children[0]) {
+					prev = leftmost;
+					leftmost = leftmost->_children[0];
+				}
+				child->_val = leftmost->_val;
+				prev->_children[0] = nullptr;
+			}
+			changed = true;
+		} else {
+			changed = _children[side]->remove(val);
+		}
+		 
+	} 
+	// else if (_val > val && _children[1]) {
+	// 	if (_children[1]->_val == val) {
+
+	// 	} else {
+	// 		changed = _children[1]->remove(val);
+	// 	}
+	// }	
+	if (changed) {
+		if (_children[0]) _leftHeight = _children[0]->newHeight() + 1;
+		else _leftHeight = 0;
+
+		if (_children[1]) _rightHeight = _children[1]->newHeight() + 1;
+		else _rightHeight = 0;
+	}
+
+	if (abs(_leftHeight - _rightHeight) > 1) balance();
+
+
+	return changed;
+}

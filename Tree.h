@@ -15,6 +15,8 @@ private:
 	void print(vector<bool> drawH);
 public:
 	int _val;
+	int _leftHeight;
+	int _rightHeight;
 	vector<shared_ptr<Tree>> _children;
 
 	Tree();

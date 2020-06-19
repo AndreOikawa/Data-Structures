@@ -11,8 +11,7 @@ using namespace std;
 class BalancedBST: public Tree {
 private:
 	// void print(vector<bool> drawH);
-	int _leftHeight;
-	int _rightHeight;
+	
 	void balance();
 	
 public:
@@ -22,7 +21,7 @@ public:
 	BalancedBST(int val);
 	// void print();
 	int add(int val) override;
-	// bool remove(int val) override;
+	bool remove(int val) override;
 };
 
 #endif
