@@ -13,6 +13,7 @@ protected:
 
 private:
 	void print(vector<bool> drawH);
+	shared_ptr<BST> closestChildReplacement();
 public:
 	shared_ptr<BST> _left;
 	shared_ptr<BST> _right;
@@ -23,7 +24,7 @@ public:
 	void print();
 	int numChildren();
 
-	void add(int val);
+	void add(int val, shared_ptr<Tree> currNode);
 	bool remove(int val);
 };
 

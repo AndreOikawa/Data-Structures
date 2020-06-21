@@ -50,100 +50,80 @@ void BST::print() {
 	print(drawH);
 }
 
-void BST::add(int val) {
-	if (_val < val) {
+void BST::add(int val, shared_ptr<Tree> currNode) {
+	if (_val > val) {
 		if (_left) {
-			_left->add(val);
+			_left->add(val, _left);
 		} else {
 			shared_ptr<BST> child = make_shared<BST>(val);
 			_left = child;
-			// _left->_parent = make_shared<BST>(this);
+			_left->_parent = dynamic_pointer_cast<BST>(currNode);
 		}
-	} else if (_val > val) {
+	} else if (_val < val) {
 		if (_right) {
-			_right->add(val);
+			_right->add(val, _right);
 		} else {
 			shared_ptr<BST> child = make_shared<BST>(val);
 			_right = child;
-			// _right->_parent = make_shared<BST>(this);
+			_right->_parent = dynamic_pointer_cast<BST>(currNode);
 		}
 	}
 }
 
-bool BST::remove(int val) {return false;}
-// bool BST::remove(int val) {
-// 	if (_val == val) {
-// 		shared_ptr<BST> closestChild;
-// 		if (_left) {
-// 			closestChild = _left;
-// 			while (closestChild->_right) {
-// 				closestChild = closestChild->_right;
-// 			}
-// 			/*	update nodes near x
-// 				o   	o
-// 				 \		 \
-// 				  x  or   x
-// 				 /
-// 				o
-// 			*/
-// 			closestChild->_parent->_right = closestChild->_left;
-// 			if (closestChild->_left) closestChild->_left->_parent = closestChild->_parent;
-// 		} else if (_right) {
-// 			closestChild = _right;
-// 			while (closestChild->_left) {
-// 				closestChild = closestChild->_left;
-// 			}
-// 			/*	update nodes near x
-// 				  o   	   o
-// 				 /		  / 
-// 				x    or  x
-// 				 \
-// 				  o
-// 			*/
-// 			closestChild->_parent->_left = closestChild->_right;
-// 			if (closestChild->_right) closestChild->_right->_parent = closestChild->_parent;
-// 		} else {
-// 			make_shared<BST>(this) = nullptr;
-// 			return;
-// 		}
+shared_ptr<BST> BST::closestChildReplacement() {
+	shared_ptr<BST> child;
+	if (_left) {
+		child = _left;
+		while (child && child->_right) {
+			child = child->_right;
+		}
+		/*	update nodes near x
+			o   	o
+			 \		 \
+			  x  or   x
+			 /
+			o
+		*/
+		if (child->_parent->_right) child->_parent->_right = child->_left;
+		else child->_parent->_left = child->_left;
+		if (child->_left) child->_left->_parent = child->_parent;
+	} else {
+		child = _right;
+		while (child && child->_left) {
+			child = child->_left;
+		}
+		/*	update nodes near x
+			  o   	   o
+			 /		  / 
+			x    or  x
+			 \
+			  o
+		*/
+		if (child->_parent->_left) child->_parent->_left = child->_right;
+		else child->_parent->_right = child->_right;
+		if (child->_right) child->_right->_parent = child->_parent;
+	}
+	return child;
+}
+
+bool BST::remove(int val) {
+	if (_val == val) {
+		shared_ptr<BST> closestChild = closestChildReplacement();		
+		_val = closestChild->_val;
+		return true;
+	} else if (_val > val) {
+		if (_left && _left->_val == val) {
+			shared_ptr<BST> closestChild = _left->closestChildReplacement();
+			_left->_val = closestChild->_val;
+			return true;
+		} else if (_left) return _left->remove(val);
 		
-
-// 		// change child
-// 		closestChild->_parent = _parent;
-// 		closestChild->_left = _left;
-// 		closestChild->_right = _right;
-
-
-// 		/*	update nodes near self
-// 			  o
-// 			  |
-// 			  x
-// 			 / \
-// 			o   o
-// 		*/
-// 		if (_parent) {
-// 			if (_val < _parent->_val) {
-// 				// left
-// 				_parent->_left = closestChild;
-// 			} else {
-// 				// right
-// 				_parent->_right = closestChild;
-// 			}
-// 		}
-
-// 		if (_left) {
-// 			_left->_parent = closestChild;
-// 		}
-
-// 		if (_right) {
-// 			_right->_parent = closestChild;
-// 		}
-
-		
-// 		make_shared<BST>(this) = closestChild;
-// 	} else if (_val < val) {
-// 		if (_left) _left->remove(val);
-// 	} else {
-// 		if (_right) _right->remove(val);
-// 	}
-// }
+	} else {
+		if (_right && _right->_val == val) {
+			shared_ptr<BST> closestChild = _right->closestChildReplacement();
+			_right->_val = closestChild->_val;
+			return true;
+		} else if (_right) return _right->remove(val);
+	}
+	return false;
+}

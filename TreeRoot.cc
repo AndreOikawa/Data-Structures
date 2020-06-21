@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <string>
 
 #include "BST.h"
@@ -24,7 +25,7 @@ int TreeRoot::numChildren() {
 }
 
 void TreeRoot::add(int val) {
-	if (_tree) _tree->add(val);
+	if (_tree) _tree->add(val, _tree);
 	else if (_treeType == bst) {
 		_tree = make_shared<BST>(val);
 	}
