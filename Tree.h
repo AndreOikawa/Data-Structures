@@ -1,31 +1,15 @@
-#ifndef __TREE__
-#define __TREE__
+#ifndef __Tree__
+#define __Tree__
 
-#include <memory>
-#include <vector>
-
-#include "Base.h"
-
-using namespace std;
-
-class Tree: public Base {
-protected:
-
-private:
-	void print(vector<bool> drawH);
+class Tree {
 public:
 	int _val;
-	int _leftHeight;
-	int _rightHeight;
-	vector<shared_ptr<Tree>> _children;
-
 	Tree();
 	Tree(int val);
-	void print();
-	// void add(int val);
-	int add(int val);
-	bool remove(int val);
-	int newHeight();
+	virtual void print() = 0;
+	virtual int numChildren() = 0;
+	virtual void add(int val) = 0;
+	virtual bool remove(int val) = 0;
 };
 
 #endif

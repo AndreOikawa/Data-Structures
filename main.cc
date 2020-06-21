@@ -1,13 +1,20 @@
+#include <algorithm>
 #include <iostream>
 
-#include "BalancedBST.h"
+#include "TreeRoot.h"
+#include "BST.h"
 #include "Tree.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	BalancedBST tree(1);
-	for (int i = 2; i <= 13; ++i) tree.add(i);
+	TreeRoot tree("BST");
+	// shared_ptr<Tree> t = make_shared<BST>(1);
+	vector<int> vals;
+	for (int i = 1; i <= 13; ++i) vals.push_back(i);
+	random_shuffle(vals.begin(), vals.end());
+
+	for (int val : vals) tree.add(val);
 
 	// Tree tree(0);
 	// int val = 1;
@@ -22,10 +29,10 @@ int main(int argc, char *argv[]) {
 	// }
 	tree.print();
 
-	int toDelete;
-	while (cin >> toDelete) {
-		cout << "Deleting " << toDelete << endl;
-		tree.remove(toDelete);
-		tree.print();
-	}
+	// int toDelete;
+	// while (cin >> toDelete) {
+	// 	cout << "Deleting " << toDelete << endl;
+	// 	tree.remove(toDelete);
+	// 	tree.print();
+	// }
 }
