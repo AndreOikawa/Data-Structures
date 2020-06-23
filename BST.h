@@ -10,10 +10,10 @@ using namespace std;
 
 class BST: public Tree {
 protected:
+	shared_ptr<BST> closestChildReplacement();
 
 private:
 	void print(vector<bool> drawH);
-	shared_ptr<BST> closestChildReplacement();
 public:
 	shared_ptr<BST> _left;
 	shared_ptr<BST> _right;

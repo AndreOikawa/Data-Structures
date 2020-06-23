@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	TreeRoot tree("BST");
+	TreeRoot tree("RBTree");
 	// shared_ptr<Tree> t = make_shared<BST>(1);
 	vector<int> vals;
 	for (int i = 1; i <= 13; ++i) vals.push_back(i);

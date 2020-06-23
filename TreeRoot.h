@@ -14,6 +14,7 @@ protected:
 private:
 	enum Type {
 		bst,
+		rb,
 	};
 
 	Type _treeType;
@@ -23,7 +24,7 @@ public:
 	TreeRoot();
 	TreeRoot(string type);
 	void print();
-	int numChildren();
+	// int numChildren();
 	void add(int val);
 	bool remove(int val);
 };

@@ -4,25 +4,42 @@
 #include <memory>
 #include <vector>
 
-#include "Tree.h"
+#include "BST.h"
 
 using namespace std;
 
-class RBTree: public Tree {
+class RBTree: public BST {
 private:
-	// void print(vector<bool> drawH);
-	
 	void balance();
+	bool recolor();
+	void rotate();
+
+	void rotateLL();
+	void rotateLR();
+	void rotateRL();
+	void rotateRR();
 public:
 	// int _val;
 	// vector<shared_ptr<Tree>> _children;
 	bool _isBlack;
-	shared_ptr<RBTree> parent;
 
 	RBTree(int val);
 	// void print();
-	int add(int val) override;
+	void add(int val, shared_ptr<Tree> currNode) override;
 	bool remove(int val) override;
 };
 
 #endif
+
+// public:
+// 	shared_ptr<BST> _left;
+// 	shared_ptr<BST> _right;
+// 	shared_ptr<BST> _parent;
+
+// 	BST();
+// 	BST(int val);
+// 	void print();
+// 	int numChildren();
+
+	
+// 	bool remove(int val);

@@ -3,6 +3,7 @@
 #include <string>
 
 #include "BST.h"
+#include "RBTree.h"
 #include "TreeRoot.h"
 
 using namespace std;
@@ -12,6 +13,8 @@ TreeRoot::TreeRoot() {}
 TreeRoot::TreeRoot(string s) {
 	if (s == "BST") {
 		_treeType = bst;
+	} else if (s == "RBTree") {
+		_treeType = rb;
 	}
 }
 
@@ -20,14 +23,12 @@ void TreeRoot::print() {
 	if (_tree) _tree->print();
 }
 
-int TreeRoot::numChildren() {
-	return (_tree ? 1 : 0);
-}
-
 void TreeRoot::add(int val) {
 	if (_tree) _tree->add(val, _tree);
 	else if (_treeType == bst) {
 		_tree = make_shared<BST>(val);
+	} else if (_treeType == rb) {
+		_tree = make_shared<RBTree>(val);
 	}
 }
 
