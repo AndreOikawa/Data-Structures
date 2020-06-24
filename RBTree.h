@@ -14,17 +14,22 @@ private:
 	bool recolor();
 	void rotate();
 
+	// void rotateR();
+	// void rotateL();
+
 	void rotateLL();
 	void rotateLR();
 	void rotateRL();
 	void rotateRR();
+
+	void print(vector<bool> drawH);
 public:
 	// int _val;
 	// vector<shared_ptr<Tree>> _children;
 	bool _isBlack;
 
 	RBTree(int val);
-	// void print();
+	void print() override;
 	void add(int val, shared_ptr<Tree> currNode) override;
 	bool remove(int val) override;
 };

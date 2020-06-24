@@ -9,14 +9,16 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	TreeRoot tree("RBTree");
-	// shared_ptr<Tree> t = make_shared<BST>(1);
-	vector<int> vals;
-	for (int i = 1; i <= 13; ++i) vals.push_back(i);
-	random_shuffle(vals.begin(), vals.end());
+	vector<int> vals = {5,11,12,13,1,6,3,2,7,10,4,8,9};
+	// vector<int> vals = {3,4,1,2};
+	// vector<int> vals;
+	// for (int i = 1; i <= 13; ++i) vals.push_back(i);
+	// random_shuffle(vals.begin(), vals.end());
 
 	for (int val : vals) {
 		cout << val << " ";
 		tree.add(val);
+		// tree.print();
 	}
 	cout << endl;
 	// Tree tree(0);
