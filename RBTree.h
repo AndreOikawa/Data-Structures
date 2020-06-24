@@ -22,6 +22,15 @@ private:
 	void rotateRL();
 	void rotateRR();
 
+	shared_ptr<RBTree> closest();
+	bool remove();
+	bool removeRed();
+
+	bool removeLL();
+	bool removeLR();
+	bool removeRL();
+	bool removeRR();
+
 	void print(vector<bool> drawH);
 public:
 	// int _val;
